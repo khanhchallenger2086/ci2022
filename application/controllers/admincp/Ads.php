@@ -1,0 +1,444 @@
+<?php
+
+
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+
+
+class Ads extends MY_Controller {
+
+
+
+    public function __construct() {
+
+        parent::__construct();
+
+        //load model item
+
+        $this->load->model('ads_m', 'item');
+
+        //load model category_item
+
+        $this->load->model('ads_category_m', 'category_item');
+
+    }
+
+
+
+    public function index() {
+
+
+
+
+
+        //get list item
+        $input = array();
+
+        $input['where'] = array('cid !=' => 5);
+
+        $list = $this->item->get_list($input);
+
+        //get category name
+
+        foreach($list as $row) {
+
+            $obj_product_category = $this->category_item->get_info($row->cid);
+
+            $row->name_category = $obj_product_category->vn_name;
+
+        }
+
+        $this->data['list'] = $list;
+
+        //get category item
+
+        $input = array();
+
+        $input['where'] = array('pid' => 0, 'id !=' => 5);
+
+        $catalogs = $this->category_item->get_list($input);
+
+
+
+        foreach ($catalogs as $row) {
+
+            $input['where'] = array('pid' => $row->id);
+
+            $subs = $this->category_item->get_list($input);
+
+            $row->subs = $subs;
+
+        }       
+
+        $this->data['catalogs'] = $catalogs;
+
+
+
+        $this->data['title'] = 'Danh sách ADS';
+
+        $this->data['temp'] = 'ads/index';
+
+        $this->load->view('admin/main', $this->data);
+
+    }
+
+
+
+    public function detail($id = 0) {
+
+        $input = array();
+
+        $input['where'] = array('pid' => 0, 'status' => 1);
+
+        $catalogs = $this->category_item->get_list($input);
+
+        foreach ($catalogs as $row) {
+
+            $input['where'] = array('pid' => $row->id, 'status' => 1);
+
+            $subs = $this->category_item->get_list($input);
+
+            $row->subs = $subs;
+
+        }
+
+        $this->data['catalogs'] = $catalogs;
+
+
+
+        $info = $this->item->get_info($id);
+
+
+
+        $this->data['info'] = $info;
+
+
+
+        if ($this->input->post()) {
+
+
+
+            $this->form_validation->set_rules('vn_name', 'Tên ADS', 'required');
+
+
+
+            $this->form_validation->set_rules('cid', 'Danh mục ADS', 'required');
+
+
+
+            if ($this->form_validation->run()) {
+
+                
+
+                $cid = $this->input->post('cid', true);
+
+
+
+                #Tạo folder upload
+
+                $upload_path = 'uploads/images/ads/';
+
+
+
+                $upload_data = $this->system_library->upload($upload_path, 'image_link');
+
+
+
+                $image_link = '';
+
+
+
+                if ($upload_data != NULL && !isset($info->image_link)) {
+
+                    $image_link = $upload_data;
+
+                } elseif ($upload_data != NULL && $info->image_link) {
+
+                    $image_link = $upload_data;
+
+                } else {
+
+                    $image_link = $info->image_link;
+
+                }
+
+
+
+                $data = array(
+
+                    'cid' => $cid,
+
+                    'vn_name' => $this->input->post('vn_name', true),
+
+                    'vn_sapo' => $this->input->post('vn_sapo', true),
+
+                    'link' => $this->input->post('link', true),
+
+                    'image_link' => $image_link,
+
+                    'status' => $this->input->post('status', true),
+
+                    'created' => now(),
+
+                );
+
+
+
+                if (!$id) {
+
+
+
+                    if ($this->item->create($data)) {
+
+                        $this->session->set_flashdata('message', 'Thêm ADS thành công');
+
+                    } else {
+
+                        $this->session->set_flashdata('message', 'Thêm ADS thất bại');
+
+                    }
+
+                } else {
+
+                    if ($this->item->update($id, $data)) {
+
+                        $this->session->set_flashdata('message', 'Cập nhật ADS thành công');
+
+                    } else {
+
+                        $this->session->set_flashdata('message', 'Cập nhật ADS thất bại');
+
+                    }
+
+                }
+
+
+
+                if ($cid) {
+
+                    redirect(base_url('admincp/ads?id=&vn_name=&cid=' . $cid));
+
+                } else {
+
+                    redirect(base_url() . 'admincp/ads/index/');
+
+                }
+
+            }
+
+        }
+
+
+
+        $this->data['title'] = 'Thêm ADS';
+
+
+
+        $this->data['temp'] = 'ads/detail';
+
+        $this->load->view('admin/main', $this->data);
+
+    }
+
+
+
+    public function config() {
+
+
+
+        $name = $this->input->post('name', true); //name obj
+
+
+
+        $action = $this->input->post('key', true); //'del_all';
+
+
+
+        $id = $this->input->post('id', true);
+
+
+
+        $ids = $this->input->post('ids', true); //array(4, 5, 6);
+
+
+
+        if ($ids) {
+
+            $array_id = implode(',', $ids);
+
+
+
+            $input = 'id IN (' . $array_id . ')';
+
+        }
+
+
+
+        $status = 0;
+
+        $msg    = '';
+
+
+
+        switch ($action) {
+
+            case 'del': 
+
+                if ($this->item->update($id, array('status' => 3))) {
+
+                    $msg = 'Xóa ' . $name . ' thành công';
+
+                    $status = 3;
+
+                    
+
+                }else {
+
+                    $msg = 'Xóa' . $name . ' không thành công';                   
+
+                }                
+
+                break;
+
+            case 'del_all':
+
+                if ($this->item->update_rule($input, array('status' => 3))) {
+
+                    $msg = 'Xóa ' . count($ids). ' ' . $name . ' thành công';
+
+                    $status = 3;                   
+
+                }else {
+
+                    $msg = 'Xóa ' . $name . ' không thành công';
+
+                }
+
+                break;
+
+            case 'enable':
+
+                if ($this->item->update($id, array('status' => 1))) {
+
+                    $msg = 'Hiển thị ' . $name . ' thành công';
+
+                    $status = 1;
+
+                    
+
+                }else {
+
+                    $msg = 'Hiển thị ' . $name . ' không thành công';
+
+                }
+
+                break;
+
+            case 'enable_all':
+
+                if ($this->item->update_rule($input, array('status' => 1))) {
+
+                    $msg = 'Hiển thị ' . count($ids). ' ' . $name . ' thành công';
+
+                    $status = 1;                   
+
+                }else {
+
+                    $msg = 'Hiển thị ' . $name . ' không thành công';
+
+                }
+
+                break;
+
+            case 'disable':
+
+                if ($this->item->update($id, array('status' => 2))) {
+
+                    $msg = 'Ẩn ' . $name . ' thành công';
+
+                    $status = 2;
+
+                    
+
+                }else {
+
+                    $msg = 'Ẩn' . $name . ' không thành công';
+
+                }
+
+                break;
+
+
+
+            case 'disable_all':
+
+                if ($this->item->update_rule($input, array('status' => 2))) {
+
+                    $msg = 'Ẩn ' . count($ids). ' ' . $name . ' thành công';
+
+                    $status = 2;                   
+
+                }else {
+
+                    $msg = 'Ẩn ' . $name . ' không thành công';
+
+                }
+
+                break;
+
+        }
+
+        //return string JSON
+
+        echo json_encode(array('msg' => $msg, 'status' => $status));
+
+    }
+
+
+
+    public function clean_trash() {
+
+
+
+        $where['where'] = array(
+
+            'status' => 3
+
+        );
+
+        $check_del = $this->item->get_list($where);
+
+
+
+        if ($check_del) {
+
+            //path uplaod to folder
+            $path_upload = ROOT_PATH . '/uploads/images/ads/';
+            foreach($check_del as $row) {
+                //clear image
+                @unlink($path_upload . $row->image_link);      
+            }
+
+            if ($this->item->del_rule("status = 3")) {
+
+                $this->session->set_flashdata('message', 'Dọn rác thành công');
+
+            }
+
+        } else {
+
+            $this->session->set_flashdata('message', 'Không có gì trong thùng rác');
+
+        }
+
+
+
+        redirect(base_url('admincp/ads'));
+
+    }
+
+
+
+}
+

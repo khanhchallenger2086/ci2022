@@ -1,0 +1,196 @@
+.container{
+	font-size: 14px;
+	font-family: Arial, Tahoma;
+	line-height: 35px;
+	padding:0px;
+}
+
+
+.tophead{
+	background:black; color: white;
+}
+.topme p{
+	padding-top: 10px;
+}
+.logohead{
+	background: white;
+	padding: 0px;
+	margin:0px;
+}
+.logotop{
+	width:25%;
+}
+navbar-toggler-icon{
+	margin:0;
+	padding:0;
+	width:5px;
+}
+.navbar-toggler{
+	background: black;
+	color:white;
+}
+.navbar-collapse{
+	background: white;
+	color: black;
+}
+
+.navbar-nav li{ font-size: 13px;
+font-weight: bold;
+text-transform: uppercase;
+}
+.navbar-nav li a{ color: black;
+}
+
+.topmenu li{
+	font-weight: bold;
+text-transform: uppercase;
+}
+.topmenu a{
+	color: white;
+	
+}
+.hatop img{
+	width: 100%;
+	
+}
+.menuleft{
+	border: 1px solid black;
+	margin-bottom: 5px;
+}
+.menuleft h4{
+	background: red;
+	color: white;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 16px;
+	line-height: 35px;
+	
+}
+.menuleft li a{
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 14px;
+	color: black;
+	
+}
+.dropdown-menu{
+	width: 100%;
+}
+
+.hotroleft img,.hotroleft p, .tketruycap{
+	padding: 10px 20px;
+	margin-left: 10px;
+	
+}
+.tktruycap, .tktruycap img{
+	width:100%;
+}
+.mangxh{
+	padding: 10px 20px;
+	
+}
+.mangxh img{
+	width: 100%;
+	
+}
+.sanphamhome{
+	margin-bottom: 20px;
+}
+.sanphamhome h3, .rcontent h4{
+	background: red;
+	color: white;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 16px;
+	line-height: 35px;
+	padding-left: 20px;
+}
+.sanphamhome p, .mpdmoi p{
+	margin:0px;
+	padding:0px;
+}
+.sanphammoi img, .mpdmoi img{
+	width:100%;
+	
+}
+.sanphammoi, .mpdmoi{
+margin:0px;
+padding:0px;
+margin-bottom: 20px;
+}
+.cotright{
+	margin:0px;
+	padding:0px;
+}
+.cotmot{
+	border: 1px solid black;
+}
+.sphammoi {
+	
+	border: 1px solid black;
+	margin:auto;
+}
+.sphammoi img{
+	width: 100% !important;
+	margin:0px;
+	padding:2px;
+}
+.sanphamhome p, .mpdmoi p{
+	line-height: 35px;
+}
+.sanphamhome p.tieude, .mpdmoi p.tieude{
+	font-weight: bold;
+	font-size:14px;	
+}
+.sanphamhome p.dienthoai, .mpdmoi p.dienthoai{
+	margin:0px;
+	padding:0px;
+	font-weight: bold;
+	color:red;
+	font-size: 18px;
+}
+.doitac h3 a{
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 16px;
+	line-height: 35px;
+	border-bottom: 2px solid red;	
+	margin-bottom: 10px;
+	color: black;
+}
+.doitac img{
+	width: 100%;
+}
+.footer{
+	background: url('index_86.png');
+	width:100%;
+}
+.footec{
+	background: black;
+	color: white;
+}
+.footerh{
+	padding-top: 20px;;
+}
+.footerh p{
+	Margin: 0px;
+	padding-bottom:10px;
+	
+}
+.footerend{
+	background: black;
+	color: white;
+}
+.footerh h4{
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 16px;
+line-height: 35px;}
+
+
+/*content sanphammoi */
+.rcontent{
+	
+}
+.rcontent h4{
+}

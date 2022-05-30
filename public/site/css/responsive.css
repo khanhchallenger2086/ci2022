@@ -1,0 +1,37 @@
+
+
+@media (min-width: 728px) and (max-width: 1150px) {
+	
+	
+/* enter large tablet style overrides here */
+}
+@media (min-width: 420px) and (max-width: 727px) {
+	.logotop{
+	width:60%;
+}
+/* enter medium tablet and large phone style overrides here */
+}
+@media (min-width: 1px) and (max-width: 419px) {
+	.container-fluid, .container, .row{
+		margin:0px;
+		padding:0px;
+	}
+	.logotop{
+	width:60%;
+	}
+	.topmenu li{
+		padding:0px;
+		font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	}
+	.topmenu a{
+		color: white;
+		
+	}
+	.mangxh img{
+		width:80%;
+		margin:0px;
+		padding:0px;
+	}
+}

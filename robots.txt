@@ -1,0 +1,7 @@
+User-agent: *
+
+Disallow: /admincp/
+
+Allow: /
+
+Sitemap: http://tbthangphat.com/sitemap.xml
